@@ -14,9 +14,9 @@ from goald.quality.pragmatic.model.pragmatic import Pragmatic
 
 def test_refinement():
     refinement = Refinement()
-    task = Task()
+    task = Task("T1")
     delegation = Delegation()
-    goal = Goal(Decomposition.AND)
+    goal = Goal(Decomposition.AND, "G1")
 
     assert task.myType() is refinement.TASK
     assert delegation.myType() is refinement.DELEGATION
@@ -24,9 +24,9 @@ def test_refinement():
 
 
 def test_shouldBeApplicable():
-    goal = Goal(Decomposition.AND)
-    task = Task()
-    delegation = Delegation()
+    goal = Goal(Decomposition.AND, "G1")
+    task = Task("T1")
+    delegation = Delegation("D1")
 
     contextCurrent = Context("C1")
     fullContext = []
@@ -43,9 +43,9 @@ def test_shouldBeApplicable():
 
 
 def test_shouldBeNotApplicable():
-    goal = Goal(Decomposition.AND)
-    task = Task()
-    delegation = Delegation()
+    goal = Goal(Decomposition.AND, "G1")
+    task = Task("T1")
+    delegation = Delegation("D1")
 
     context = Context("C1")
 
@@ -65,7 +65,7 @@ def test_shouldBeNotApplicable():
 
 
 def test_aTaskShouldBeAchievable():
-    task = Task()
+    task = Task("T1")
 
     currentContext = Context("C1")
     fullContext = []
@@ -106,7 +106,7 @@ def test_shouldAddSeveralContextsAtOnce():
     context1 = Context("C1")
     context2 = Context("C2")
 
-    task = Task()
+    task = Task("T1")
 
     assert task.applicableContext is None
 
@@ -116,7 +116,7 @@ def test_shouldAddSeveralContextsAtOnce():
 
 
 def test_aNonApplicableRootGoalIsNotAchievable():
-    goal = Goal(Decomposition.AND)
+    goal = Goal(Decomposition.AND, "G1")
     current = Context("C1")
     fullContext = []
 
@@ -131,9 +131,9 @@ def test_aNonApplicableRootGoalIsNotAchievable():
 
 
 def test_aGoalWithATaskMayBeAchievable():
-    goal = Goal(Decomposition.AND)
+    goal = Goal(Decomposition.AND, "G1")
 
-    task = Task()
+    task = Task("T1")
 
     current = Context("C1")
     fullContext = []
@@ -156,10 +156,10 @@ def test_aGoalWithATaskMayBeAchievable():
 
 
 def test_aGoalAndDecomposedWithTwoTasksMayBeAchievable():
-    goal = Goal(Decomposition.AND)
+    goal = Goal(Decomposition.AND, "G1")
 
-    task1 = Task()
-    task2 = Task()
+    task1 = Task("T1")
+    task2 = Task("T2")
 
     current = Context("C1")
     fullContext = []
@@ -188,10 +188,10 @@ def test_aGoalAndDecomposedWithTwoTasksMayBeAchievable():
 
 
 def test_aGoalAndDecomposedWithTwoTasksMayNotBeAchievable():
-    goal = Goal(Decomposition.AND)
+    goal = Goal(Decomposition.AND, "G1")
 
-    task1 = Task()
-    task2 = Task()
+    task1 = Task("T1")
+    task2 = Task("T2")
 
     current = Context("C1")
     fullContext = []
@@ -221,11 +221,11 @@ def test_aGoalAndDecomposedWithTwoTasksMayNotBeAchievable():
 
 
 def test_aGoalOrDecomposedWithTwoTasksMayBeAchievable():
-    goal = Goal(Decomposition.OR)
+    goal = Goal(Decomposition.OR, "G1")
     assert goal.decomposition
 
-    task1 = Task()
-    task2 = Task()
+    task1 = Task("T1")
+    task2 = Task("T2")
 
     current = Context("C1")
     fullContext = []
@@ -254,11 +254,11 @@ def test_aGoalOrDecomposedWithTwoTasksMayBeAchievable():
 
 
 def test_aGoalOrDecomposedWithTwoTasksMayBeAchievableAtOnlyOneBranch():
-    goal = Goal(Decomposition.OR)
+    goal = Goal(Decomposition.OR, "G1")
     assert goal.decomposition
 
-    task1 = Task()
-    task2 = Task()
+    task1 = Task("T1")
+    task2 = Task("T2")
 
     current = Context("C1")
     fullContext = []
@@ -288,10 +288,10 @@ def test_aGoalOrDecomposedWithTwoTasksMayBeAchievableAtOnlyOneBranch():
 
 
 def test_aGoalOrDecomposedWithTwoTasksMayNotBeAchievable():
-    goal = Goal(Decomposition.OR)
+    goal = Goal(Decomposition.OR, "G1")
 
-    task1 = Task()
-    task2 = Task()
+    task1 = Task("T1")
+    task2 = Task("T2")
     current = Context("C1")
     fullContext = []
     fullContext.append(current)
@@ -322,7 +322,7 @@ def test_aGoalOrDecomposedWithTwoTasksMayNotBeAchievable():
 def test_ApplicableDeps():
     goal = Pragmatic(Decomposition.AND)
 
-    task = Task()
+    task = Task("T1")
     context = Context("C1")
     wrongContext = Context("C2")
 
@@ -348,9 +348,9 @@ def test_ApplicableDeps():
 
 
 def test_getApplicableQC():
-    goal = Pragmatic(Decomposition.AND)
+    goal = Pragmatic(Decomposition.AND, "G1")
 
-    task = Task()
+    task = Task("T1")
     context = Context("C1")
     anotherContext = Context("C2")
 
@@ -398,7 +398,7 @@ def test_getApplicableQC():
 
 
 def test_shouldGetBaselineQC():
-    goal = Pragmatic(Decomposition.AND)
+    goal = Pragmatic(Decomposition.AND, "G1")
 
     context = Context("C1")
 
@@ -416,9 +416,9 @@ def test_shouldGetBaselineQC():
 
 
 def test_shouldThereBeMoreThanOneApplicableQCreturnTheStricterOne():
-    goal = Pragmatic(Decomposition.AND)
+    goal = Pragmatic(Decomposition.AND, "G1")
 
-    task = Task()
+    task = Task("T1")
     context = Context("C1")
     anotherContext = Context("C2")
 
@@ -446,9 +446,9 @@ def test_shouldThereBeMoreThanOneApplicableQCreturnTheStricterOne():
 
 
 def test_shouldIncludeNonApplicableContexts():
-    goal = Pragmatic(False)
+    goal = Pragmatic(False, "G1")
 
-    task = Task()
+    task = Task("T1")
     context = Context("C1")
     wrongContext = Context("C2")
     current = []

@@ -13,6 +13,7 @@ class QualityConstraint():
         return self.aplicableContext
 
     def abidesByQC(self, value, metric):
+        # check the value for the metric
         if metric is self.metric:
             self.compare(value)
             if self.compare(value) is False:
@@ -21,6 +22,7 @@ class QualityConstraint():
         return True
 
     def compare(self, value):
+        # Define how to compare the metric
         if self.comparison == Comparison.GREATER_THAN:
             if value > self.value:
                 return True

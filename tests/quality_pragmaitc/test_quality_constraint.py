@@ -66,7 +66,6 @@ def shouldAbideByQcIfMetricIsNotAffected():
 
 
 def shouldCorrectlyCompareMetrics():
-
     qc = QualityConstraint(Context("C1"), CommonMetrics.SECONDS, 15,
                            Comparison.LESS_THAN)
     assert True is qc.abidesByQC(14, CommonMetrics.SECONDS)

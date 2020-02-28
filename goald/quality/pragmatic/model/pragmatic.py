@@ -4,7 +4,7 @@ from goald.quality.pragmatic.model.interpretation import Interpretation
 
 class Pragmatic(Goal):
 
-    def __init__(self, decomposition, identifier=""):
+    def __init__(self, decomposition, identifier):
         Goal.__init__(self, decomposition, identifier)
 
         self.interp = Interpretation()

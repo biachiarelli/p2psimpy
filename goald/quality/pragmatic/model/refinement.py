@@ -63,10 +63,6 @@ class Refinement():
                     if(dep not in applicableDeps):
                         applicableDeps.append(dep)
 
-        print("====== Applicable Dependencies ======")
-        for d in applicableDeps:
-            print(d.identifier)
-
         return applicableDeps
 
     def getIdentifier(self):

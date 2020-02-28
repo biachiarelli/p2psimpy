@@ -3,7 +3,7 @@ from goald.quality.pragmatic.model.refinement import Refinement
 
 class Delegation(Refinement):
 
-    def __init__(self, identifier=""):
+    def __init__(self, identifier):
         Refinement.__init__(self, identifier)
 
     def myType(self):

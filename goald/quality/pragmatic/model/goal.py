@@ -4,7 +4,7 @@ from goald.quality.pragmatic.model.decomposition import Decomposition
 
 
 class Goal(Refinement):
-    def __init__(self, decomposition, identifier=""):
+    def __init__(self, decomposition, identifier):
         Refinement.__init__(self, identifier)
         self.decomposition = decomposition
 

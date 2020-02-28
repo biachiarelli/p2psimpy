@@ -6,7 +6,7 @@ from goald.quality.pragmatic.model.decomposition import Decomposition
 
 
 def test_shouldGetDependencies():
-    root = Goal(Decomposition.AND)
+    root = Goal(Decomposition.AND, "root")
 
     task = Task("T1")
     goal = Goal(Decomposition.AND, "G1")
@@ -47,8 +47,7 @@ def test_shouldBeAchievable():
 
 
 def test_shouldBeUnachievable():
-
-    root = Goal(Decomposition.AND)
+    root = Goal(Decomposition.AND, "root")
 
     context1 = Context("c1")
     context2 = Context("c2")
@@ -56,9 +55,8 @@ def test_shouldBeUnachievable():
     current = []
     current.append(context1)
 
-    task1 = Task()
-
-    task2 = Task()
+    task1 = Task("T1")
+    task2 = Task("T2")
 
     task1.addApplicableContext(context2)
     task2.addApplicableContext(context2)
@@ -76,14 +74,14 @@ def test_shouldBeUnachievable():
 
 
 def test_shouldGetApplicableDependencies():
-    root = Goal(Decomposition.AND)
+    root = Goal(Decomposition.AND, "root")
 
     context = Context("c1")
     current = []
     current.append(context)
 
-    task = Task()
-    goal = Goal(Decomposition.AND)
+    task = Task("t1")
+    goal = Goal(Decomposition.AND, "g1")
     delegation = Delegation()
 
     task.addApplicableContext(context)

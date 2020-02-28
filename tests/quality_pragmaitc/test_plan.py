@@ -3,9 +3,9 @@ from goald.quality.pragmatic.model.task import Task
 
 
 def test_plan():
-    task1 = Task()
-    task2 = Task()
-    task3 = Task()
+    task1 = Task("t1")
+    task2 = Task("t2")
+    task3 = Task("t3")
 
     plan1 = Plan(task1)
     plan2 = Plan(task2)
