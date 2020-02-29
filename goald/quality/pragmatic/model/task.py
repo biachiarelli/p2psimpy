@@ -11,19 +11,22 @@ class Task(Refinement):
 
     def myType(self):
         return Refinement().TASK
-    # Set task provided quality from baseline or context
 
+    # Set task provided quality from baseline or context
     def setProvidedQuality(self, context, metric, value):
         metricMap = {}
         # Check if the metric was already in Provided Qualities
         if metric in self.providedQualityLevels:
             metricMap = self.providedQualityLevels[metric]
+            # if yes, replace with new value
             metricMap[context] = value
             self.providedQualityLevels[metric] = metricMap
         else:
             metricMap[context] = value
+            # if no, add
             self.providedQualityLevels[metric] = metricMap
 
+    # Return quality value if exists
     def myProvidedQuality(self, metric, contextSet):
         myQuality = 0
         initQuality = False
@@ -31,7 +34,6 @@ class Task(Refinement):
         if metric not in self.providedQualityLevels.keys():
             message = "Metric: {0} not found".format(metric.name)
             print(message)
-            # raise MetricNotFoundException
             return None
         # get metric
         metricQL = self.providedQualityLevels[metric]
@@ -64,12 +66,12 @@ class Task(Refinement):
             return True
 
         currentQcs = interp.getQualityConstraints(current)
-        # get the qualities constraints from curent contex
+        # get the qualities constraints from curent active context
         for qc in currentQcs:
             try:
                 myQC = self.myProvidedQuality(qc.metric, current)
                 if myQC is not None:
-                    # check if the metric fits the interpretation constrains
+                    # check if metric fits the interpretation constrain
                     if not qc.abidesByQC(myQC, qc.metric):
                         feasible = False
             except MetricNotFoundException:

@@ -345,9 +345,9 @@ def test_C2(mpers):
     for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
         found = 0
 
-        if task.getIdentifier() == "acceptEmergency":
+        if task.identifier == "acceptEmergency":
             found = 1
-        if task.getIdentifier() == "notifyBySoundAlert":
+        if task.identifier == "notifyBySoundAlert":
             found = 1
 
         assert found == 0
@@ -364,7 +364,7 @@ def test_C3(mpers):
     for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
         found = 0
 
-        if task.getIdentifier() == "acceptEmergency":
+        if task.identifier == "acceptEmergency":
             found = 1
 
         assert found == 0
@@ -381,17 +381,17 @@ def test_C4(mpers):
     for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
         found = 0
 
-        if task.getIdentifier() == "notifyCentralBySMS":
+        if task.identifier == "notifyCentralBySMS":
             found = 1
-        if task.getIdentifier() == "confirmEmergencyByCall":
+        if task.identifier == "confirmEmergencyByCall":
             found = 1
-        if task.getIdentifier() == "notifyBySoundAlert":
+        if task.identifier == "notifyBySoundAlert":
             found = 1
-        if task.getIdentifier() == "sendInfoBySMS":
+        if task.identifier == "sendInfoBySMS":
             found = 1
-        if task.getIdentifier() == "identifyLocationByVoiceCall":
+        if task.identifier == "identifyLocationByVoiceCall":
             found = 1
-        if task.getIdentifier() == "accessLocationFromTriangulation":
+        if task.identifier == "accessLocationFromTriangulation":
             found = 1
 
         assert found == 0
@@ -408,13 +408,13 @@ def test_C5(mpers):
     for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
         found = 0
 
-        if task.getIdentifier() == "notifyCentralBySMS":
+        if task.identifier == "notifyCentralBySMS":
             found = 1
-        if task.getIdentifier() == "notifyBySoundAlert":
+        if task.identifier == "notifyBySoundAlert":
             found = 1
-        if task.getIdentifier() == "sendInfoBySMS":
+        if task.identifier == "sendInfoBySMS":
             found = 1
-        if task.getIdentifier() == "confirmEmergencyByCall":
+        if task.identifier == "confirmEmergencyByCall":
             found = 1
 
         assert found == 0
@@ -431,11 +431,11 @@ def test_C6(mpers):
     for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
         found = 0
 
-        if task.getIdentifier() == "notifyCentralBySMS":
+        if task.identifier == "notifyCentralBySMS":
             found = 1
-        if task.getIdentifier() == "sendInfoBySMS":
+        if task.identifier == "sendInfoBySMS":
             found = 1
-        if task.getIdentifier() == "confirmEmergencyByCall":
+        if task.identifier == "confirmEmergencyByCall":
             found = 1
 
         assert found == 0
@@ -452,19 +452,19 @@ def test_C7(mpers):
     for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
         found = 0
 
-        if task.getIdentifier() == "notifyCentralBySMS":
+        if task.identifier == "notifyCentralBySMS":
             found = 1
-        if task.getIdentifier() == "confirmEmergencyByCall":
+        if task.identifier == "confirmEmergencyByCall":
             found = 1
-        if task.getIdentifier() == "notifyBySoundAlert":
+        if task.identifier == "notifyBySoundAlert":
             found = 1
-        if task.getIdentifier() == "sendInfoBySMS":
+        if task.identifier == "sendInfoBySMS":
             found = 1
-        if task.getIdentifier() == "identifyLocationByVoiceCall":
+        if task.identifier == "identifyLocationByVoiceCall":
             found = 1
-        if task.getIdentifier() == "accessLocationFromTriangulation":
+        if task.identifier == "accessLocationFromTriangulation":
             found = 1
-        if task.getIdentifier() == "accessLocationFromGPS":
+        if task.identifier == "accessLocationFromGPS":
             found = 1
 
         assert found == 0
@@ -481,17 +481,17 @@ def test_C8(mpers):
     for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
         found = 0
 
-        if task.getIdentifier() == "notifyCentralBySMS":
+        if task.identifier == "notifyCentralBySMS":
             found = 1
-        if task.getIdentifier() == "confirmEmergencyByCall":
+        if task.identifier == "confirmEmergencyByCall":
             found = 1
-        if task.getIdentifier() == "notifyBySoundAlert":
+        if task.identifier == "notifyBySoundAlert":
             found = 1
-        if task.getIdentifier() == "sendInfoBySMS":
+        if task.identifier == "sendInfoBySMS":
             found = 1
-        if task.getIdentifier() == "identifyLocationByVoiceCall":
+        if task.identifier == "identifyLocationByVoiceCall":
             found = 1
-        if task.getIdentifier() == "accessLocationFromTriangulation":
+        if task.identifier == "accessLocationFromTriangulation":
             found = 1
 
         assert found == 0
@@ -508,9 +508,9 @@ def test_C9(mpers):
     for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
         found = 0
 
-        if task.getIdentifier() == "notifyByLightAlert":
+        if task.identifier == "notifyByLightAlert":
             found = 1
-        if task.getIdentifier() == "acceptsEmergency":
+        if task.identifier == "acceptsEmergency":
             found = 1
 
         assert found == 0
@@ -527,9 +527,9 @@ def test_C10(mpers):
     for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
         found = 0
 
-        if task.getIdentifier() == "notifyByLightAlert":
+        if task.identifier == "notifyByLightAlert":
             found = 1
-        if task.getIdentifier() == "acceptEmergency":
+        if task.identifier == "acceptEmergency":
             found = 1
 
         assert found == 0

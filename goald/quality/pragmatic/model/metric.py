@@ -5,4 +5,3 @@ class Metric():
 
     def getLessIsBetter(self):
         return self.lessIsBetter
-        

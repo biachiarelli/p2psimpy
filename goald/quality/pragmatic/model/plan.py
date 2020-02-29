@@ -1,5 +1,5 @@
 class Plan:
-    
+
     def __init__(self, task=None):
         self.tasks = []
         if task:
@@ -9,7 +9,7 @@ class Plan:
         for task in plan.getTasks():
             if task not in self.tasks:
                 self.tasks.append(task)
-    
+
     def addTask(self, task):
         self.tasks.append(task)
 

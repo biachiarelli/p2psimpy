@@ -15,7 +15,7 @@ from goald.quality.pragmatic.model.pragmatic import Pragmatic
 def test_refinement():
     refinement = Refinement()
     task = Task("T1")
-    delegation = Delegation()
+    delegation = Delegation("D1")
     goal = Goal(Decomposition.AND, "G1")
 
     assert task.myType() is refinement.TASK
@@ -131,7 +131,7 @@ def test_aNonApplicableRootGoalIsNotAchievable():
 
 
 def test_aGoalWithATaskMayBeAchievable():
-    goal = Goal(Decomposition.AND, "G1")
+    goal = Goal(Decomposition.AND, "Root")
 
     task = Task("T1")
 
@@ -148,7 +148,6 @@ def test_aGoalWithATaskMayBeAchievable():
     task.setProvidedQuality(current, CommonMetrics.SECONDS, 13)
 
     goal.addDependency(task)
-    goal.setIdentifier("Root")
     goal.addApplicableContext(current)
 
     plan = goal.isAchievable(fullContext, interp)
@@ -156,7 +155,7 @@ def test_aGoalWithATaskMayBeAchievable():
 
 
 def test_aGoalAndDecomposedWithTwoTasksMayBeAchievable():
-    goal = Goal(Decomposition.AND, "G1")
+    goal = Goal(Decomposition.AND, "Root")
 
     task1 = Task("T1")
     task2 = Task("T2")
@@ -180,7 +179,6 @@ def test_aGoalAndDecomposedWithTwoTasksMayBeAchievable():
     goal.addDependency(task1)
     goal.addDependency(task2)
 
-    goal.setIdentifier("Root")
     goal.addApplicableContext(current)
 
     plan = goal.isAchievable(fullContext, interp)
@@ -188,7 +186,7 @@ def test_aGoalAndDecomposedWithTwoTasksMayBeAchievable():
 
 
 def test_aGoalAndDecomposedWithTwoTasksMayNotBeAchievable():
-    goal = Goal(Decomposition.AND, "G1")
+    goal = Goal(Decomposition.AND, "Root")
 
     task1 = Task("T1")
     task2 = Task("T2")
@@ -209,7 +207,6 @@ def test_aGoalAndDecomposedWithTwoTasksMayNotBeAchievable():
     goal.addDependency(task1)
     goal.addDependency(task2)
 
-    goal.setIdentifier("Root")
     goal.addApplicableContext(current)
 
     interp = Interpretation()
@@ -221,7 +218,7 @@ def test_aGoalAndDecomposedWithTwoTasksMayNotBeAchievable():
 
 
 def test_aGoalOrDecomposedWithTwoTasksMayBeAchievable():
-    goal = Goal(Decomposition.OR, "G1")
+    goal = Goal(Decomposition.OR, "Root")
     assert goal.decomposition
 
     task1 = Task("T1")
@@ -243,7 +240,6 @@ def test_aGoalOrDecomposedWithTwoTasksMayBeAchievable():
     goal.addDependency(task1)
     goal.addDependency(task2)
 
-    goal.setIdentifier("Root")
     goal.addApplicableContext(current)
 
     interp = Interpretation()
@@ -254,7 +250,7 @@ def test_aGoalOrDecomposedWithTwoTasksMayBeAchievable():
 
 
 def test_aGoalOrDecomposedWithTwoTasksMayBeAchievableAtOnlyOneBranch():
-    goal = Goal(Decomposition.OR, "G1")
+    goal = Goal(Decomposition.OR, "Root")
     assert goal.decomposition
 
     task1 = Task("T1")
@@ -276,7 +272,6 @@ def test_aGoalOrDecomposedWithTwoTasksMayBeAchievableAtOnlyOneBranch():
     goal.addDependency(task1)
     goal.addDependency(task2)
 
-    goal.setIdentifier("Root")
     goal.addApplicableContext(current)
 
     interp = Interpretation()
@@ -288,7 +283,7 @@ def test_aGoalOrDecomposedWithTwoTasksMayBeAchievableAtOnlyOneBranch():
 
 
 def test_aGoalOrDecomposedWithTwoTasksMayNotBeAchievable():
-    goal = Goal(Decomposition.OR, "G1")
+    goal = Goal(Decomposition.OR, "Root")
 
     task1 = Task("T1")
     task2 = Task("T2")
@@ -308,7 +303,6 @@ def test_aGoalOrDecomposedWithTwoTasksMayNotBeAchievable():
     goal.addDependency(task1)
     goal.addDependency(task2)
 
-    goal.setIdentifier("Root")
     goal.addApplicableContext(current)
 
     interp = Interpretation()
@@ -320,7 +314,7 @@ def test_aGoalOrDecomposedWithTwoTasksMayNotBeAchievable():
 
 
 def test_ApplicableDeps():
-    goal = Pragmatic(Decomposition.AND)
+    goal = Pragmatic(Decomposition.AND, "Root")
 
     task = Task("T1")
     context = Context("C1")
@@ -332,7 +326,6 @@ def test_ApplicableDeps():
     task.addApplicableContext(context)
     task.setProvidedQuality(context, CommonMetrics.SECONDS, 13)
 
-    goal.setIdentifier("Root")
     goal.addDependency(task)
     goal.addApplicableContext(context)
     goal.interp.addQualityConstraint(qc)
@@ -348,7 +341,7 @@ def test_ApplicableDeps():
 
 
 def test_getApplicableQC():
-    goal = Pragmatic(Decomposition.AND, "G1")
+    goal = Pragmatic(Decomposition.AND, "Root")
 
     task = Task("T1")
     context = Context("C1")
@@ -364,7 +357,6 @@ def test_getApplicableQC():
     task.setProvidedQuality(context, CommonMetrics.SECONDS, 13)
 
     goal.addDependency(task)
-    goal.setIdentifier("Root")
     goal.addApplicableContext(context)
     goal.interp.addQualityConstraint(qc)
     goal.interp.addQualityConstraint(stricter)
@@ -398,7 +390,7 @@ def test_getApplicableQC():
 
 
 def test_shouldGetBaselineQC():
-    goal = Pragmatic(Decomposition.AND, "G1")
+    goal = Pragmatic(Decomposition.AND, "Root")
 
     context = Context("C1")
 
@@ -407,7 +399,6 @@ def test_shouldGetBaselineQC():
     baselineQC = QualityConstraint(
         None, CommonMetrics.SECONDS, 10, Comparison.LESS_OR_EQUAL_TO)
 
-    goal.setIdentifier("Root")
     goal.addApplicableContext(context)
     goal.interp.addQualityConstraint(qc)
     goal.interp.addQualityConstraint(baselineQC)
@@ -416,7 +407,7 @@ def test_shouldGetBaselineQC():
 
 
 def test_shouldThereBeMoreThanOneApplicableQCreturnTheStricterOne():
-    goal = Pragmatic(Decomposition.AND, "G1")
+    goal = Pragmatic(Decomposition.AND, "Root")
 
     task = Task("T1")
     context = Context("C1")
@@ -430,7 +421,6 @@ def test_shouldThereBeMoreThanOneApplicableQCreturnTheStricterOne():
         anotherContext, CommonMetrics.SECONDS, 10, Comparison.LESS_OR_EQUAL_TO)
 
     goal.addDependency(task)
-    goal.setIdentifier("Root")
     goal.addApplicableContext(context)
     goal.interp.addQualityConstraint(qc)
     goal.interp.addQualityConstraint(stricter)
@@ -446,7 +436,7 @@ def test_shouldThereBeMoreThanOneApplicableQCreturnTheStricterOne():
 
 
 def test_shouldIncludeNonApplicableContexts():
-    goal = Pragmatic(False, "G1")
+    goal = Pragmatic(False, "Root")
 
     task = Task("T1")
     context = Context("C1")
@@ -460,7 +450,6 @@ def test_shouldIncludeNonApplicableContexts():
     task.setProvidedQuality(context, CommonMetrics.SECONDS, 13)
 
     goal.addDependency(task)
-    goal.setIdentifier("Root")
     goal.addNonapplicableContext(wrongContext)
     goal.interp.addQualityConstraint(qc)
 

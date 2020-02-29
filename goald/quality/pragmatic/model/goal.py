@@ -11,19 +11,23 @@ class Goal(Refinement):
     def myType(self):
         return Refinement().GOAL
 
+    # Recursive function to choose plan
     def isAchievable(self, current, interp):
+        # Check if Goal is achievable for current context
         if not self.isApplicable(current):
             return None
-
+        # Active taks or goals that are dendencies for self.goal achievement
         dependencies = self.getApplicableDependencies(current)
 
         if self.decomposition == Decomposition.OR:
+            # if decomposition is OR return first achievable plan from dependencies list
             for dep in dependencies:
                 plan = dep.isAchievable(current, interp)
                 if plan:
                     return plan
             return None
         else:
+            # else decomposition is AND return achievables plans list from dependencies list
             complete = Plan()
             for dep in dependencies:
                 plan = dep.isAchievable(current, interp)

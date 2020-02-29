@@ -82,7 +82,7 @@ def test_shouldGetApplicableDependencies():
 
     task = Task("t1")
     goal = Goal(Decomposition.AND, "g1")
-    delegation = Delegation()
+    delegation = Delegation("D1")
 
     task.addApplicableContext(context)
 

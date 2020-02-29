@@ -3,6 +3,7 @@ from goald.quality.pragmatic.model.quality_constraint import QualityConstraint
 from goald.quality.pragmatic.model.common_metrics import CommonMetrics
 from goald.quality.pragmatic.model.pragmatic import Pragmatic
 from goald.quality.pragmatic.model.comparison import Comparison
+from goald.quality.pragmatic.model.decomposition import Decomposition
 
 
 def test_shouldGetDifferentQualityConstraintsForDifferentContexts():
@@ -14,7 +15,7 @@ def test_shouldGetDifferentQualityConstraintsForDifferentContexts():
     anotherQC = QualityConstraint(
         anotherContext, CommonMetrics.METERS, 60, Comparison.LESS_OR_EQUAL_TO)
 
-    goal = Pragmatic(False)
+    goal = Pragmatic(Decomposition.AND, "G1")
 
     goal.interp.addQualityConstraint(aQC)
     goal.interp.addQualityConstraint(anotherQC)

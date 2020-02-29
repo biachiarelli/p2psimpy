@@ -30,15 +30,17 @@ class Refinement():
     def getApplicableContext(self):
         return self.applicableContext
 
+    # check if refinement(goals or taks) is applicable in current active context
     def isApplicable(self, current):
         returnValue = False
 
+        # check if is there is no context
         if self.applicableContext is None:
             returnValue = True
 
         if len(self.nonapplicableContexts) > 0:
             returnValue = True
-
+        # iterates over contexts to return if is applicable or not
         for context in current:
             if context in self.nonapplicableContexts:
                 return False
@@ -48,25 +50,18 @@ class Refinement():
 
         return returnValue
 
-    def getDependencies(self):
-        return self.dependencies
-
+    # Return list of refinements(goals/tasks) with the applicable context in the active contexts
     def getApplicableDependencies(self, current):
         applicableDeps = []
 
+        # itarates over dependencies(goals/tasks) to add them in applicable
         for dep in self.dependencies:
             if dep.applicableContext is None:
                 applicableDeps.append(dep)
                 continue
+            # check if current context is in dep applicable context and if isnt already in applicabledeps
             for context in current:
-                if context in dep.applicableContext:
-                    if(dep not in applicableDeps):
-                        applicableDeps.append(dep)
+                if context in dep.applicableContext and dep not in applicableDeps:
+                    applicableDeps.append(dep)
 
         return applicableDeps
-
-    def getIdentifier(self):
-        return self.identifier
-
-    def setIdentifier(self, identifier):
-        self.identifier = identifier
