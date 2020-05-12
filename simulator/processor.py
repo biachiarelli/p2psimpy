@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import random
 import simpy
+import logging
 
 class Processor:
     def __init__(self, env, id, latency):
@@ -8,9 +9,10 @@ class Processor:
         self.processor = simpy.Resource(env)
         self.latency = latency
         self.name = 'proc_{}'.format(id)
+        self.env = env
 
     def process_message(self, method, value):
-        print(self.name + ': scheduling process of message')
+        logging.info(str(self.env.now) + ' :: ' + self.name + ': scheduling process of message')
         with self.processor.request() as rec:
             yield rec
             yield self.timeout(self.latency)

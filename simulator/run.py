@@ -1,4 +1,5 @@
 import simpy
+import logging
 import peer
 import network
 import driver
@@ -6,12 +7,20 @@ import processor
 
 """
 Run app.
-Controll of peers, duration and others details.
+Peer control, duration and others details.
 
 """
+# Configuração do root logger
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+handlers = [console_handler]
+logging.basicConfig(level = logging.INFO,
+                    format = '[%(levelname)s] [%(module)10s] %(message)s',
+                    handlers = handlers
+)
 
-NUM_PEERS = 5
-SIM_DURATION = 100000
+NUM_PEERS = 2
+SIM_DURATION = 1000
 
 
 # create env
@@ -24,10 +33,10 @@ net = network.Network(env,2)
 
 nodes = []
 
-teste = env.timeout(2)
+teste = env.timeout(200)
 
 for i in range (NUM_PEERS):
-     proc = processor.Processor(env, i, 30)
+     proc = processor.Processor(env, i, 3)
      dri = driver.Driver(net, proc)
      new_peer = peer.Peer(dri, i)
      nodes.append(new_peer)
