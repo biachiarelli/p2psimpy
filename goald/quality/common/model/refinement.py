@@ -30,26 +30,6 @@ class Refinement():
     def getApplicableContext(self):
         return self.applicableContext
 
-    # check if refinement(goals or taks) is applicable in current active context
-    def isApplicable(self, current):
-        returnValue = False
-
-        # check if is there is no context
-        if self.applicableContext is None:
-            returnValue = True
-
-        if len(self.nonapplicableContexts) > 0:
-            returnValue = True
-        # iterates over contexts to return if is applicable or not
-        for context in current:
-            if context in self.nonapplicableContexts:
-                return False
-            if self.applicableContext:
-                if context in self.applicableContext:
-                    returnValue = True
-
-        return returnValue
-
     # Return list of refinements(goals/tasks) with the applicable context in the active contexts
     def getApplicableDependencies(self, current):
         applicableDeps = []

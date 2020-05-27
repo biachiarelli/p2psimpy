@@ -1,4 +1,4 @@
-from goald.quality.pragmatic.model.refinement import Refinement
+from goald.quality.common.model.refinement import Refinement
 
 
 class Delegation(Refinement):

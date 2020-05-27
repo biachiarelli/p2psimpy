@@ -1,7 +1,7 @@
-from goald.quality.pragmatic.model.quality_constraint import QualityConstraint
-from goald.quality.pragmatic.model.common_metrics import CommonMetrics
-from goald.quality.pragmatic.model.context import Context
-from goald.quality.pragmatic.model.comparison import Comparison
+from goald.quality.common.model.quality_constraint import QualityConstraint
+from goald.quality.common.model.common_metrics import CommonMetrics
+from goald.quality.common.model.context import Context
+from goald.quality.common.model.comparison import Comparison
 
 
 def test_shouldBeBetterThan():

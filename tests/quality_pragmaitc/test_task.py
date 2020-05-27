@@ -1,11 +1,13 @@
-from goald.quality.pragmatic.model.task import Task
-from goald.quality.pragmatic.model.context import Context
-from goald.quality.pragmatic.model.decomposition import Decomposition
-from goald.quality.pragmatic.model.comparison import Comparison
-from goald.quality.pragmatic.model.quality_constraint import QualityConstraint
+from goald.quality.common.model.task import Task
+from goald.quality.common.model.context import Context
+from goald.quality.common.model.decomposition import Decomposition
+from goald.quality.common.model.comparison import Comparison
+from goald.quality.common.model.quality_constraint import QualityConstraint
 from tests.test_data.mpers_metric import MpersMetrics
 from tests.test_data.mpers_model import MpersModel
-from goald.quality.pragmatic.model.pragmatic import Pragmatic
+from goald.quality.planning.pragmatic.pragmatic import Pragmatic
+from goald.quality.planning.pragmatic.pragmatic_planning import PragmaticPlanning
+
 import pytest
 
 
@@ -25,7 +27,7 @@ def test_shouldProvideCorrectValueForMetric():
 
     task.setProvidedQuality(currentContext, MpersMetrics.METERS, 30)
 
-    assert 30 == task.myProvidedQuality(MpersMetrics.METERS, fullContext)
+    assert 30 == PragmaticPlanning().myProvidedQuality(task, MpersMetrics.METERS, fullContext)
 
 
 def text_shouldProvideMetricForBaseline():
@@ -37,7 +39,7 @@ def text_shouldProvideMetricForBaseline():
 
     task.setProvidedQuality(None, MpersMetrics.METERS, 30.0)
 
-    assert 30.0 == task.myProvidedQuality(MpersMetrics.METERS, fullContext)
+    assert 30.0 == PragmaticPlanning().myProvidedQuality(task, MpersMetrics.METERS, fullContext)
 
 
 def metricNotFound():
@@ -49,7 +51,7 @@ def metricNotFound():
 
     task.setProvidedQuality(currentContext, MpersMetrics.METERS, 30.0)
 
-    result = task.myProvidedQuality(MpersMetrics.SECONDS, fullContext)
+    result = PragmaticPlanning().myProvidedQuality(task, MpersMetrics.SECONDS, fullContext)
     assert result is None
 
 
@@ -62,7 +64,7 @@ def test_OnlyBaselineDefined():
 
     task.setProvidedQuality(baseline, MpersMetrics.METERS, 50.0)
 
-    assert 50.0 == task.myProvidedQuality(MpersMetrics.METERS, fullContext)
+    assert 50.0 == PragmaticPlanning().myProvidedQuality(task, MpersMetrics.METERS, fullContext)
 
 
 def test_shouldProvideSpecificContextMetric():
@@ -77,7 +79,7 @@ def test_shouldProvideSpecificContextMetric():
     task.setProvidedQuality(currentContext, MpersMetrics.METERS, 50)
     task.setProvidedQuality(baseline, MpersMetrics.METERS, 30)
 
-    assert 50 == task.myProvidedQuality(MpersMetrics.METERS, fullContext)
+    assert 50 == PragmaticPlanning().myProvidedQuality(task, MpersMetrics.METERS, fullContext)
 
 
 def test_abidesByInterpretation_passing_baseline(mpers):
@@ -87,12 +89,12 @@ def test_abidesByInterpretation_passing_baseline(mpers):
     c9 = mpers.contexts.c9
 
     context = [c1]
-    result = notifyByMobileVibrationTask.abidesByInterpretation(
+    result = PragmaticPlanning().abidesByInterpretation(notifyByMobileVibrationTask, 
         isNotifiedAboutEmergencyGoal.interp, context)
     assert result == True
 
     context = [c9]
-    result = notifyByMobileVibrationTask.abidesByInterpretation(
+    result = PragmaticPlanning().abidesByInterpretation(notifyByMobileVibrationTask, 
         isNotifiedAboutEmergencyGoal.interp, context)
     assert result == True
 
@@ -104,12 +106,12 @@ def test_abidesByInterpretation_not_passing_baseline(mpers):
     c1 = mpers.contexts.c1
 
     context = [c6]
-    result = notifyBySoundAlertTask.abidesByInterpretation(
+    result = PragmaticPlanning().abidesByInterpretation(notifyBySoundAlertTask, 
         isNotifiedAboutEmergencyGoal.interp, context)
     assert result == True
 
     context = [c1]
-    result = notifyBySoundAlertTask.abidesByInterpretation(
+    result = PragmaticPlanning().abidesByInterpretation(notifyBySoundAlertTask, 
         isNotifiedAboutEmergencyGoal.interp, context)
     assert result == False
 
@@ -119,7 +121,7 @@ def test_abidesByInterpretation_only_baseline(mpers):
     locationIsIdentifiedGoal = mpers.goals.locationIsIdentifiedGoal
     context = []
 
-    result = considerLastKnownLocationTask.abidesByInterpretation(
+    result = PragmaticPlanning().abidesByInterpretation(considerLastKnownLocationTask, 
         locationIsIdentifiedGoal.interp, context)
     assert result == True
 
@@ -133,7 +135,7 @@ def test_abidesByInterpretation_only_baseline_context(mpers):
 
     context = [c1, c2, c3]
 
-    result = considerLastKnownLocationTask.abidesByInterpretation(
+    result = PragmaticPlanning().abidesByInterpretation(considerLastKnownLocationTask, 
         locationIsIdentifiedGoal.interp, context)
     assert result == True
 
@@ -145,13 +147,13 @@ def test_abidesByInterpretation_context_not_passing(mpers):
 
     context = []
 
-    result = identifyLocationByVoiceCallTask.abidesByInterpretation(
+    result = PragmaticPlanning().abidesByInterpretation(identifyLocationByVoiceCallTask, 
         locationIsIdentifiedGoal.interp, context)
     assert result == True
 
     context.append(c5)
 
-    result = identifyLocationByVoiceCallTask.abidesByInterpretation(
+    result = PragmaticPlanning().abidesByInterpretation(identifyLocationByVoiceCallTask, 
         locationIsIdentifiedGoal.interp, context)
     assert result == False
 
@@ -164,7 +166,7 @@ def test_abidesByInterpretation_only_baseline_not_passing(mpers):
     LongSecondsTask.setProvidedQuality(
         None, MpersMetrics.SECONDS, 1500)
 
-    result = LongSecondsTask.abidesByInterpretation(
+    result = PragmaticPlanning().abidesByInterpretation(LongSecondsTask, 
         locationIsIdentifiedGoal.interp, context)
     assert result == False
 
@@ -175,11 +177,11 @@ def test_myQualityBaseline(mpers):
     c11 = mpers.contexts.c11
 
     context = [c2]
-    result = accessLocationFromTriangulationTask.myProvidedQuality(
+    result = PragmaticPlanning().myProvidedQuality(accessLocationFromTriangulationTask, 
         MpersMetrics.DISTANCE_ERROR, context)
     assert result == 40
 
     context.append(c11)
-    result = accessLocationFromTriangulationTask.myProvidedQuality(
+    result = PragmaticPlanning().myProvidedQuality(accessLocationFromTriangulationTask, 
         MpersMetrics.DISTANCE_ERROR, context)
     assert result == 400

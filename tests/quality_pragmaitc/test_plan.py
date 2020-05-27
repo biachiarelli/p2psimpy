@@ -1,5 +1,5 @@
-from goald.quality.pragmatic.model.plan import Plan
-from goald.quality.pragmatic.model.task import Task
+from goald.quality.common.model.plan import Plan
+from goald.quality.common.model.task import Task
 
 
 def test_plan():

@@ -1,5 +1,6 @@
 from tests.utils.assert_util import assertPlan
 from tests.test_data.mpers_model import MpersModel
+from goald.quality.planning.pragmatic.pragmatic_planning import PragmaticPlanning
 
 import pytest
 
@@ -63,7 +64,7 @@ def test_ContextSet1_centralReceivesInfoGoal(mpers):
                    mpers.contexts.c9,
                    mpers.contexts.c10]
 
-    plan = mpers.goals.centralReceivesInfoGoal.isAchievable(fullContext, None)
+    plan = PragmaticPlanning().isAchievable(mpers.goals.centralReceivesInfoGoal, fullContext, None)
 
     assert assertPlan(
         plan,
@@ -167,7 +168,7 @@ def test_ContextSet4_centralReceivesInfoGoal(mpers):
                    mpers.contexts.c6,
                    mpers.contexts.c7]
 
-    plan = mpers.goals.centralReceivesInfoGoal.isAchievable(fullContext, None)
+    plan = PragmaticPlanning().isAchievable(mpers.goals.centralReceivesInfoGoal, fullContext, None)
 
     assert assertPlan(
         plan,

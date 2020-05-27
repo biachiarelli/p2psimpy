@@ -1,15 +1,35 @@
-from goald.quality.pragmatic.model.refinement import Refinement
-from goald.quality.pragmatic.model.plan import Plan
-from goald.quality.pragmatic.model.decomposition import Decomposition
-from goald.quality.pragmatic.exceptions.metric_not_found import MetricNotFoundException
+from goald.quality.common.model.refinement import Refinement
+from goald.quality.common.model.plan import Plan
+from goald.quality.common.model.decomposition import Decomposition
+from goald.quality.common.exceptions.metric_not_found import MetricNotFoundException
 
 
 class PragmaticPlanning:
+    
+    # check if refinement(goals or taks) is applicable in current active context
+    def isApplicable(self, dep, current):
+        returnValue = False
+
+        # check if is there is no context
+        if dep.applicableContext is None:
+            returnValue = True
+
+        if len(dep.nonapplicableContexts) > 0:
+            returnValue = True
+        # iterates over contexts to return if is applicable or not
+        for context in current:
+            if context in dep.nonapplicableContexts:
+                return False
+            if dep.applicableContext:
+                if context in dep.applicableContext:
+                    returnValue = True
+
+        return returnValue
 
     # Recursive function to choose plan
     def isAchievable(self, goal, current, interp):
         # Check if Goal is achievable for current context
-        if not goal.isApplicable(current):
+        if not self.isApplicable(goal, current):
             return None
         # Active taks or goals that are dendencies for self.goal achievement
         dependencies = goal.getApplicableDependencies(current)
@@ -21,6 +41,8 @@ class PragmaticPlanning:
                     plan = self.isAchievable(dep, current, interp)
                 elif(dep.myType() is Refinement().TASK):
                     plan = self.isAchievableTask(dep, current, interp)
+                else:
+                    return None
                 if plan:
                     return plan
             return None
@@ -32,6 +54,8 @@ class PragmaticPlanning:
                     plan = self.isAchievable(dep, current, interp)
                 elif(dep.myType() is Refinement().TASK):
                     plan = self.isAchievableTask(dep, current, interp)
+                else:
+                    return None
 
                 if plan:
                     complete.add(plan)
@@ -52,7 +76,7 @@ class PragmaticPlanning:
         # get the qualities constraints from curent active context
         for qc in currentQcs:
             try:
-                myQC = task.myProvidedQuality(qc.metric, current)
+                myQC = self.myProvidedQuality(task, qc.metric, current)
                 if myQC is not None:
                     # check if metric fits the interpretation constrain
                     if not qc.abidesByQC(myQC, qc.metric):
@@ -63,7 +87,7 @@ class PragmaticPlanning:
         if interp.getQualityConstraints([None]):
             for qc in interp.getQualityConstraints([None]):
                 try:
-                    myQC = task.myProvidedQuality(qc.metric, current)
+                    myQC = self.myProvidedQuality(task, qc.metric, current)
                     if myQC is not None:
                         if not qc.abidesByQC(myQC, qc.metric):
                             feasible = False
@@ -72,9 +96,43 @@ class PragmaticPlanning:
 
         return feasible
 
+
+    # Return quality value if exists
+    def myProvidedQuality(self, task, metric, contextSet):
+        myQuality = 0
+        initQuality = False
+        # Check if the metric was already in Provided Qualities
+        if metric not in task.providedQualityLevels.keys():
+            message = "Metric: {0} not found".format(metric.name)
+            print(message)
+            return None
+        # get metric
+        metricQL = task.providedQualityLevels[metric]
+
+        # getting baseline
+        if None in metricQL:
+            myQuality = metricQL[None]
+            initQuality = True
+        # test the qualities of active contexts
+        for current in contextSet:
+            if metricQL.get(current) is None:
+                continue
+            if not initQuality:
+                myQuality = metricQL.get(current)
+                initQuality = True
+            else:
+                # check if less is better for that metric
+                if metric.getLessIsBetter():
+                    if(myQuality > metricQL[current]):
+                        myQuality = metricQL[current]
+                elif(myQuality < metricQL[current]):
+                    myQuality = metricQL[current]
+
+        return myQuality
+
     def isAchievableTask(self, task, current, interp):
         # check if the task is applicable for that context
-        if not task.isApplicable(current):
+        if not self.isApplicable(task, current):
             return None
         # test if quality fit and if return it with Plan to be added
         if self.abidesByInterpretation(task, interp, current):

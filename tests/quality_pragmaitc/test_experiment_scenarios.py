@@ -2,6 +2,7 @@ from goald.utils.context_generator import ContextGenerator
 from goald.utils.print import print_context
 from tests.utils.assert_util import assertPlan
 from tests.test_data.mpers_model import MpersModel
+from goald.quality.planning.pragmatic.pragmatic import Pragmatic
 
 import pytest
 

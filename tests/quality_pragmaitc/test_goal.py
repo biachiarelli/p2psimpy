@@ -1,8 +1,9 @@
-from goald.quality.pragmatic.model.task import Task
-from goald.quality.pragmatic.model.goal import Goal
-from goald.quality.pragmatic.model.context import Context
-from goald.quality.pragmatic.model.delegation import Delegation
-from goald.quality.pragmatic.model.decomposition import Decomposition
+from goald.quality.common.model.task import Task
+from goald.quality.common.model.goal import Goal
+from goald.quality.common.model.context import Context
+from goald.quality.common.model.delegation import Delegation
+from goald.quality.common.model.decomposition import Decomposition
+from goald.quality.planning.pragmatic.pragmatic_planning import PragmaticPlanning
 
 
 def test_shouldGetDependencies():
@@ -40,7 +41,7 @@ def test_shouldBeAchievable():
     root.addDependency(task1)
     root.addDependency(task2)
 
-    plan = root.isAchievable(current, None)
+    plan = PragmaticPlanning().isAchievable(root, current, None)
     assert plan
 
     assert task2 in plan.getTasks()
@@ -68,7 +69,7 @@ def test_shouldBeUnachievable():
     deps.append(task1)
     deps.append(task2)
 
-    plan = root.isAchievable(current, None)
+    plan = PragmaticPlanning().isAchievable(root, current, None)
 
     assert plan is None
 
