@@ -26,6 +26,13 @@ class PragmaticPlanning:
 
         return returnValue
 
+    # If is a pragmatic goal merge the interpretations
+    def isAchievablePlan(self, goal, current, interp):
+        if type(goal).__name__ == 'Pragmatic':
+            return goal.isAchievable(current, interp)
+        else:
+            return self.isAchievable(goal, current, interp)
+
     # Recursive function to choose plan
     def isAchievable(self, goal, current, interp):
         # Check if Goal is achievable for current context
@@ -38,7 +45,10 @@ class PragmaticPlanning:
             # if decomposition is OR return first achievable plan from dependencies list
             for dep in dependencies:
                 if(dep.myType() is Refinement().GOAL):
-                    plan = self.isAchievable(dep, current, interp)
+                    if type(dep).__name__ == 'Pragmatic':
+                        dep.isAchievable(current, interp)
+                    else:
+                        plan = self.isAchievable(dep, current, interp)
                 elif(dep.myType() is Refinement().TASK):
                     plan = self.isAchievableTask(dep, current, interp)
                 else:
@@ -51,7 +61,10 @@ class PragmaticPlanning:
             complete = Plan()
             for dep in dependencies:
                 if(dep.myType() is Refinement().GOAL):
-                    plan = self.isAchievable(dep, current, interp)
+                    if type(dep).__name__ == 'Pragmatic':
+                        plan = dep.isAchievable(current, interp)
+                    else:
+                        plan = self.isAchievable(dep, current, interp)
                 elif(dep.myType() is Refinement().TASK):
                     plan = self.isAchievableTask(dep, current, interp)
                 else:
@@ -139,4 +152,3 @@ class PragmaticPlanning:
             return Plan(task)
         else:
             return None
-            
