@@ -167,10 +167,10 @@ class MpersModel():
             self.goals.infoIsPreparedGoal)
 
         self.goals.infoIsSentToEmergencyGoal.addDependency(
-            self.tasks.sendInfoBySMSTask)
-        self.goals.infoIsSentToEmergencyGoal.addDependency(
             self.tasks.sendInfoByInternetTask)
-
+        self.goals.infoIsSentToEmergencyGoal.addDependency(
+            self.tasks.sendInfoBySMSTask)
+            
         self.goals.infoIsPreparedGoal.addDependency(
             self.goals.setupAutomatedInfoGoal)
         self.goals.infoIsPreparedGoal.addDependency(
