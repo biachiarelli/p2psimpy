@@ -40,6 +40,7 @@ goal.addDependency(task2)
 goal.addDependency(task3)
 
 qc1 = QualityConstraint(None, MpersMetrics.SECONDS, 180, Comparison.LESS_THAN)
+qc1 = QualityConstraint(None, MpersMetrics.ERROR, 90, Comparison.LESS_THAN)
 qc2 = QualityConstraint(c2, MpersMetrics.SECONDS, 90, Comparison.LESS_THAN)
 goal.interp.addQualityConstraint(qc1)
 goal.interp.addQualityConstraint(qc2)
@@ -52,4 +53,4 @@ def test_C1():
 
     assert plan is not None
 
-    # assert True is assertPlan(plan, [task2])
+    assert True is assertPlan(plan, [task2])
