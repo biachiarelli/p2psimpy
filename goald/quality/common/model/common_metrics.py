@@ -1,4 +1,4 @@
-from goald.quality.pragmatic.model.metric import Metric
+from goald.quality.common.model.metric import Metric
 
 
 class CommonMetrics:

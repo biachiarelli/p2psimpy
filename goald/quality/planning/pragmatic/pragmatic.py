@@ -1,6 +1,8 @@
-from goald.quality.pragmatic.model.goal import Goal
-from goald.quality.pragmatic.model.interpretation import Interpretation
+from goald.quality.common.model.goal import Goal
+from goald.quality.common.model.interpretation import Interpretation
 
+
+from goald.quality.planning.pragmatic.pragmatic_planning import PragmaticPlanning
 
 class Pragmatic(Goal):
 
@@ -14,4 +16,4 @@ class Pragmatic(Goal):
         newInterp.merge(self.interp)
         newInterp.merge(interp)
 
-        return super().isAchievable(current, newInterp)
+        return PragmaticPlanning().isAchievable(self, current, newInterp)

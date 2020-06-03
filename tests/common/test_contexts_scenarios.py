@@ -7,11 +7,10 @@ from goald.quality.common.model.metric import Metric
 from goald.quality.common.model.quality_constraint import QualityConstraint
 from goald.quality.common.model.comparison import Comparison
 from goald.quality.common.model.interpretation import Interpretation
-from goald.utils.context_generator import ContextGenerator
-from goald.utils.print import print_context
 from tests.utils.assert_util import assertPlan
 from tests.test_data.mpers_metric import MpersMetrics
 from tests.test_data.mpers_model import MpersModel
+from goald.quality.planning.pragmatic.pragmatic_planning import PragmaticPlanning
 import pytest
 
 
@@ -21,12 +20,10 @@ def mpers():
 
     return mpers
 
-
 def test_C1(mpers):
     fullContext = [mpers.contexts.c1, mpers.contexts.c2, mpers.contexts.c4, mpers.contexts.c5,
                    mpers.contexts.c7, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
-    plan = mpers.rootGoal.isAchievable(fullContext, None)
-
+    plan = PragmaticPlanning().isAchievable(mpers.rootGoal, fullContext, None)
     assert plan is not None
 
     assert False is assertPlan(
@@ -36,11 +33,12 @@ def test_C1(mpers):
 def test_C2(mpers):
     fullContext = [mpers.contexts.c1, mpers.contexts.c2, mpers.contexts.c4, mpers.contexts.c6,
                    mpers.contexts.c7, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
-    tasks = mpers.rootGoal.isAchievable(fullContext, None)
+    
+    tasks = PragmaticPlanning().isAchievable(mpers.rootGoal, fullContext, None)
 
     assert tasks is not None
 
-    for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
+    for task in tasks.getTasks():
         found = 0
 
         if task.identifier == "acceptEmergency":
@@ -54,12 +52,12 @@ def test_C2(mpers):
 def test_C3(mpers):
     fullContext = [mpers.contexts.c1, mpers.contexts.c2, mpers.contexts.c3, mpers.contexts.c4,
                    mpers.contexts.c5, mpers.contexts.c6, mpers.contexts.c7, mpers.contexts.c8]
-
-    tasks = mpers.rootGoal.isAchievable(fullContext, None)
+    
+    tasks = PragmaticPlanning().isAchievable(mpers.rootGoal, fullContext, None)
 
     assert tasks is not None
 
-    for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
+    for task in tasks.getTasks():
         found = 0
 
         if task.identifier == "acceptEmergency":
@@ -69,14 +67,14 @@ def test_C3(mpers):
 
 
 def test_C4(mpers):
-    print("=========== Test C4 ================")
     fullContext = [mpers.contexts.c1, mpers.contexts.c4, mpers.contexts.c6,
                    mpers.contexts.c7, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
-    tasks = mpers.rootGoal.isAchievable(fullContext, None)
+
+    tasks = PragmaticPlanning().isAchievable(mpers.rootGoal, fullContext, None)
 
     assert tasks is not None
 
-    for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
+    for task in tasks.getTasks():
         found = 0
 
         if task.identifier == "notifyCentralBySMS":
@@ -96,14 +94,14 @@ def test_C4(mpers):
 
 
 def test_C5(mpers):
-    print("=========== Test C5 ================")
     fullContext = [mpers.contexts.c1, mpers.contexts.c4, mpers.contexts.c5,
                    mpers.contexts.c7, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
-    tasks = mpers.rootGoal.isAchievable(fullContext, None)
+
+    tasks = PragmaticPlanning().isAchievable(mpers.rootGoal, fullContext, None)
 
     assert tasks is not None
 
-    for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
+    for task in tasks.getTasks():
         found = 0
 
         if task.identifier == "notifyCentralBySMS":
@@ -119,14 +117,14 @@ def test_C5(mpers):
 
 
 def test_C6(mpers):
-    print("=========== Test C6 ================")
     fullContext = [mpers.contexts.c1, mpers.contexts.c4, mpers.contexts.c5, mpers.contexts.c6,
                    mpers.contexts.c7, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
-    tasks = mpers.rootGoal.isAchievable(fullContext, None)
+
+    tasks = PragmaticPlanning().isAchievable(mpers.rootGoal, fullContext, None)
 
     assert tasks is not None
 
-    for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
+    for task in tasks.getTasks():
         found = 0
 
         if task.identifier == "notifyCentralBySMS":
@@ -140,14 +138,14 @@ def test_C6(mpers):
 
 
 def test_C7(mpers):
-    print("=========== Test C7 ================")
     fullContext = [mpers.contexts.c1, mpers.contexts.c4, mpers.contexts.c6,
                    mpers.contexts.c7, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
-    tasks = mpers.rootGoal.isAchievable(fullContext, None)
+
+    tasks = PragmaticPlanning().isAchievable(mpers.rootGoal, fullContext, None)
 
     assert tasks is not None
 
-    for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
+    for task in tasks.getTasks():
         found = 0
 
         if task.identifier == "notifyCentralBySMS":
@@ -169,14 +167,14 @@ def test_C7(mpers):
 
 
 def test_C8(mpers):
-    print("=========== Test C8 ================")
     fullContext = [mpers.contexts.c1, mpers.contexts.c4, mpers.contexts.c5,
                    mpers.contexts.c7, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
-    tasks = mpers.rootGoal.isAchievable(fullContext, None)
+
+    tasks = PragmaticPlanning().isAchievable(mpers.rootGoal, fullContext, None)
 
     assert tasks is not None
 
-    for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
+    for task in tasks.getTasks():
         found = 0
 
         if task.identifier == "notifyCentralBySMS":
@@ -196,14 +194,14 @@ def test_C8(mpers):
 
 
 def test_C9(mpers):
-    print("=========== Test C9 ================")
     fullContext = [mpers.contexts.c1, mpers.contexts.c2, mpers.contexts.c4,
                    mpers.contexts.c5, mpers.contexts.c6, mpers.contexts.c9]
-    tasks = mpers.rootGoal.isAchievable(fullContext, None)
+
+    tasks = PragmaticPlanning().isAchievable(mpers.rootGoal, fullContext, None)
 
     assert tasks is not None
 
-    for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
+    for task in tasks.getTasks():
         found = 0
 
         if task.identifier == "notifyByLightAlert":
@@ -214,15 +212,15 @@ def test_C9(mpers):
         assert found == 0
 
 
+
 def test_C10(mpers):
-    print("=========== Test C10 ================")
     fullContext = [mpers.contexts.c1, mpers.contexts.c2, mpers.contexts.c3, mpers.contexts.c5,
                    mpers.contexts.c6, mpers.contexts.c8, mpers.contexts.c10, mpers.contexts.c12]
-    tasks = mpers.rootGoal.isAchievable(fullContext, None)
+
+    tasks = PragmaticPlanning().isAchievable(mpers.rootGoal, fullContext, None)
 
     assert tasks is not None
-
-    for task in mpers.rootGoal.isAchievable(fullContext, None).getTasks():
+    for task in tasks.getTasks():
         found = 0
 
         if task.identifier == "notifyByLightAlert":
@@ -234,8 +232,7 @@ def test_C10(mpers):
 
 
 def test_None(mpers):
-    print("=========== Test None ================")
     fullContext = []
-    tasks = mpers.rootGoal.isAchievable(fullContext, None)
+    tasks = PragmaticPlanning().isAchievable(mpers.rootGoal, fullContext, None)
 
     assert tasks is None

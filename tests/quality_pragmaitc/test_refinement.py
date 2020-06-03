@@ -1,16 +1,16 @@
-from goald.quality.pragmatic.model.refinement import Refinement
-from goald.quality.pragmatic.model.task import Task
-from goald.quality.pragmatic.model.delegation import Delegation
-from goald.quality.pragmatic.model.decomposition import Decomposition
-from goald.quality.pragmatic.model.context import Context
-from goald.quality.pragmatic.model.common_metrics import CommonMetrics
-from goald.quality.pragmatic.model.decomposition import Decomposition
-from goald.quality.pragmatic.model.goal import Goal
-from goald.quality.pragmatic.model.interpretation import Interpretation
-from goald.quality.pragmatic.model.quality_constraint import QualityConstraint
-from goald.quality.pragmatic.model.comparison import Comparison
-from goald.quality.pragmatic.model.pragmatic import Pragmatic
-
+from goald.quality.common.model.refinement import Refinement
+from goald.quality.common.model.task import Task
+from goald.quality.common.model.delegation import Delegation
+from goald.quality.common.model.decomposition import Decomposition
+from goald.quality.common.model.context import Context
+from goald.quality.common.model.common_metrics import CommonMetrics
+from goald.quality.common.model.decomposition import Decomposition
+from goald.quality.common.model.goal import Goal
+from goald.quality.common.model.interpretation import Interpretation
+from goald.quality.common.model.quality_constraint import QualityConstraint
+from goald.quality.common.model.comparison import Comparison
+from goald.quality.planning.pragmatic.pragmatic import Pragmatic
+from goald.quality.planning.pragmatic.pragmatic_planning import PragmaticPlanning
 
 def test_refinement():
     refinement = Refinement()
@@ -37,9 +37,9 @@ def test_shouldBeApplicable():
     task.addApplicableContext(contextCurrent)
     delegation.addApplicableContext(contextCurrent)
 
-    assert True is goal.isApplicable(fullContext)
-    assert True is task.isApplicable(fullContext)
-    assert True is delegation.isApplicable(fullContext)
+    assert True is PragmaticPlanning().isApplicable(goal, fullContext)
+    assert True is PragmaticPlanning().isApplicable(task, fullContext)
+    assert True is PragmaticPlanning().isApplicable(delegation, fullContext)
 
 
 def test_shouldBeNotApplicable():
@@ -59,9 +59,9 @@ def test_shouldBeNotApplicable():
     fullContext = []
     fullContext.append(wrongContext)
 
-    assert False is goal.isApplicable(fullContext)
-    assert False is task.isApplicable(fullContext)
-    assert False is delegation.isApplicable(fullContext)
+    assert False is PragmaticPlanning().isApplicable(goal, fullContext)
+    assert False is PragmaticPlanning().isApplicable(task, fullContext)
+    assert False is PragmaticPlanning().isApplicable(delegation, fullContext)
 
 
 def test_aTaskShouldBeAchievable():
@@ -80,7 +80,7 @@ def test_aTaskShouldBeAchievable():
     interp = Interpretation()
     interp.addQualityConstraint(qc)
 
-    assert task in task.isAchievable(
+    assert task in PragmaticPlanning().isAchievableTask(task, 
         fullContext, interp).getTasks()
 
 
@@ -99,7 +99,7 @@ def aTaskMayNotBeAchievable():
     interp = Interpretation()
     interp.addQualityConstraint(qc)
 
-    assert task.isAchievable(fullContext, interp) is None
+    assert PragmaticPlanning().isAchievable(task, fullContext, interp) is None
 
 
 def test_shouldAddSeveralContextsAtOnce():
@@ -127,7 +127,7 @@ def test_aNonApplicableRootGoalIsNotAchievable():
     interp = Interpretation()
     interp.addQualityConstraint(qc)
 
-    assert goal.isAchievable(fullContext, interp) is None
+    assert PragmaticPlanning().isAchievable(goal, fullContext, interp) is None
 
 
 def test_aGoalWithATaskMayBeAchievable():
@@ -150,7 +150,7 @@ def test_aGoalWithATaskMayBeAchievable():
     goal.addDependency(task)
     goal.addApplicableContext(current)
 
-    plan = goal.isAchievable(fullContext, interp)
+    plan = PragmaticPlanning().isAchievable(goal, fullContext, interp)
     assert len(plan.getTasks()) == 1
 
 
@@ -181,7 +181,7 @@ def test_aGoalAndDecomposedWithTwoTasksMayBeAchievable():
 
     goal.addApplicableContext(current)
 
-    plan = goal.isAchievable(fullContext, interp)
+    plan = PragmaticPlanning().isAchievable(goal, fullContext, interp)
     assert 2 == len(plan.getTasks())
 
 
@@ -212,7 +212,7 @@ def test_aGoalAndDecomposedWithTwoTasksMayNotBeAchievable():
     interp = Interpretation()
     interp.addQualityConstraint(qc)
 
-    plan = goal.isAchievable(fullContext, interp)
+    plan = PragmaticPlanning().isAchievable(goal, fullContext, interp)
 
     assert plan is None
 
@@ -245,7 +245,7 @@ def test_aGoalOrDecomposedWithTwoTasksMayBeAchievable():
     interp = Interpretation()
     interp.addQualityConstraint(qc)
 
-    plan = goal.isAchievable(fullContext, interp)
+    plan = PragmaticPlanning().isAchievable(goal, fullContext, interp)
     assert len(plan.getTasks()) == 1
 
 
@@ -277,7 +277,7 @@ def test_aGoalOrDecomposedWithTwoTasksMayBeAchievableAtOnlyOneBranch():
     interp = Interpretation()
     interp.addQualityConstraint(qc)
 
-    plan = goal.isAchievable(fullContext, interp)
+    plan = PragmaticPlanning().isAchievable(goal, fullContext, interp)
     assert task2 in plan.getTasks()
     assert task1 not in plan.getTasks()
 
@@ -308,7 +308,7 @@ def test_aGoalOrDecomposedWithTwoTasksMayNotBeAchievable():
     interp = Interpretation()
     interp.addQualityConstraint(qc)
 
-    plan = goal.isAchievable(fullContext, interp)
+    plan = PragmaticPlanning().isAchievable(goal, fullContext, interp)
     assert goal.decomposition is Decomposition.OR
     assert plan is None
 
@@ -334,7 +334,7 @@ def test_ApplicableDeps():
     interp.addQualityConstraint(qc)
     current = []
     current.append(wrongContext)
-    assert goal.isAchievable(current, interp) is None
+    assert PragmaticPlanning().isAchievable(goal, current, interp) is None
 
     current.append(context)
     assert len(goal.isAchievable(current, interp).getTasks()) == 1
@@ -361,15 +361,12 @@ def test_getApplicableQC():
     goal.interp.addQualityConstraint(qc)
     goal.interp.addQualityConstraint(stricter)
 
-    interp = Interpretation()
-    interp.addQualityConstraint(qc)
-
     fullContext.append(context)
 
     assert stricter not in goal.interp.getQualityConstraints(
         fullContext)
 
-    plan = goal.isAchievable(fullContext, interp)
+    plan = PragmaticPlanning().isAchievable(goal, fullContext, goal.interp)
     assert len(plan.getTasks()) == 1
 
     fullContext.append(anotherContext)
@@ -379,9 +376,10 @@ def test_getApplicableQC():
     assert stricter in goal.interp.getQualityConstraints(
         fullContext)
 
-    assert goal.isAchievable(fullContext, interp) is None
+    assert PragmaticPlanning().isAchievable(goal, fullContext, goal.interp) is None
 
     fullContext.remove(context)
+
     assert qc not in goal.interp.getQualityConstraints(
         fullContext)
 
@@ -457,12 +455,12 @@ def test_shouldIncludeNonApplicableContexts():
     interp.addQualityConstraint(qc)
 
     current.append(wrongContext)
-    assert goal.isAchievable(current, interp) is None
+    assert PragmaticPlanning().isAchievable(goal, current, interp) is None
 
     current.append(context)
-    assert goal.isAchievable(current, interp) is None
+    assert PragmaticPlanning().isAchievable(goal, current, interp) is None
 
     current.remove(wrongContext)
-    assert goal.isAchievable(current, interp)
-    assert goal.isAchievable(current, interp).getTasks()
+    assert PragmaticPlanning().isAchievable(goal, current, interp)
+    assert PragmaticPlanning().isAchievable(goal, current, interp).getTasks()
     assert 1 == len(goal.isAchievable(current, interp).getTasks())

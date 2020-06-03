@@ -1,4 +1,4 @@
-from goald.quality.pragmatic.model.comparison import Comparison
+from goald.quality.common.model.comparison import Comparison
 
 
 class QualityConstraint():

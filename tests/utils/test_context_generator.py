@@ -1,6 +1,6 @@
 from goald.utils.arrange_generator import ArrangeGenerator
 from goald.utils.context_generator import ContextGenerator
-from goald.quality.pragmatic.model.context import Context
+from goald.quality.common.model.context import Context
 
 
 def test_arrange_gen():

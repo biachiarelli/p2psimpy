@@ -1,5 +1,6 @@
 from tests.utils.assert_util import assertPlan
 from tests.test_data.mpers_model import MpersModel
+from goald.quality.planning.pragmatic.pragmatic_planning import PragmaticPlanning
 
 import pytest
 
@@ -23,7 +24,7 @@ def test_ContextSet1_emergencyIsDetected(mpers):
                    mpers.contexts.c9,
                    mpers.contexts.c10]
 
-    plan = mpers.goals.emergencyIsDetectedGoal.isAchievable(fullContext, None)
+    plan = PragmaticPlanning().isAchievablePlan(mpers.goals.emergencyIsDetectedGoal, fullContext, None)
 
     assert assertPlan(
         plan,
@@ -43,8 +44,7 @@ def test_ContextSet1_isNotifiedAboutEmergencyGoal(mpers):
                    mpers.contexts.c9,
                    mpers.contexts.c10]
 
-    plan = mpers.goals.isNotifiedAboutEmergencyGoal.isAchievable(
-        fullContext, None)
+    plan = PragmaticPlanning().isAchievablePlan(mpers.goals.isNotifiedAboutEmergencyGoal, fullContext, None)
 
     assert assertPlan(
         plan,
@@ -63,7 +63,7 @@ def test_ContextSet1_centralReceivesInfoGoal(mpers):
                    mpers.contexts.c9,
                    mpers.contexts.c10]
 
-    plan = mpers.goals.centralReceivesInfoGoal.isAchievable(fullContext, None)
+    plan = PragmaticPlanning().isAchievablePlan(mpers.goals.centralReceivesInfoGoal, fullContext, None)
 
     assert assertPlan(
         plan,
@@ -83,7 +83,7 @@ def test_ContextSet1_medicalCareReachesGoal(mpers):
                    mpers.contexts.c9,
                    mpers.contexts.c10]
 
-    plan = mpers.goals.medicalCareReachesGoal.isAchievable(fullContext, None)
+    plan = PragmaticPlanning().isAchievablePlan(mpers.goals.medicalCareReachesGoal, fullContext, None)
 
     assert assertPlan(
         plan,
@@ -95,7 +95,7 @@ def test_ContextSet3_emergencyIsDetectedGoal(mpers):
                    mpers.contexts.c8,
                    mpers.contexts.c11]
 
-    plan = mpers.goals.emergencyIsDetectedGoal.isAchievable(fullContext, None)
+    plan = PragmaticPlanning().isAchievablePlan(mpers.goals.emergencyIsDetectedGoal, fullContext, None)
 
     assert assertPlan(
         plan,
@@ -108,8 +108,7 @@ def test_ContextSet3_isNotifiedAboutEmergencyGoal(mpers):
                    mpers.contexts.c8,
                    mpers.contexts.c11]
 
-    plan = mpers.goals.isNotifiedAboutEmergencyGoal.isAchievable(
-        fullContext, None)
+    plan = PragmaticPlanning().isAchievablePlan(mpers.goals.isNotifiedAboutEmergencyGoal, fullContext, None)
 
     assert assertPlan(
         plan,
@@ -121,7 +120,7 @@ def test_ContextSet3_centralReceivesInfoGoal(mpers):
                    mpers.contexts.c8,
                    mpers.contexts.c11]
 
-    plan = mpers.goals.centralReceivesInfoGoal.isAchievable(fullContext, None)
+    plan = PragmaticPlanning().isAchievablePlan(mpers.goals.centralReceivesInfoGoal, fullContext, None)
 
     assert assertPlan(
         plan,
@@ -137,7 +136,7 @@ def test_ContextSet4_emergencyIsDetectedGoal(mpers):
                    mpers.contexts.c6,
                    mpers.contexts.c7]
 
-    plan = mpers.goals.emergencyIsDetectedGoal.isAchievable(fullContext, None)
+    plan = PragmaticPlanning().isAchievablePlan(mpers.goals.emergencyIsDetectedGoal, fullContext, None)
 
     assert assertPlan(
         plan,
@@ -152,8 +151,7 @@ def test_ContextSet4_isNotifiedAboutEmergencyGoal(mpers):
                    mpers.contexts.c6,
                    mpers.contexts.c7]
 
-    plan = mpers.goals.isNotifiedAboutEmergencyGoal.isAchievable(
-        fullContext, None)
+    plan = PragmaticPlanning().isAchievablePlan(mpers.goals.isNotifiedAboutEmergencyGoal, fullContext, None)
 
     assert assertPlan(
         plan,
@@ -167,7 +165,7 @@ def test_ContextSet4_centralReceivesInfoGoal(mpers):
                    mpers.contexts.c6,
                    mpers.contexts.c7]
 
-    plan = mpers.goals.centralReceivesInfoGoal.isAchievable(fullContext, None)
+    plan = PragmaticPlanning().isAchievablePlan(mpers.goals.centralReceivesInfoGoal, fullContext, None)
 
     assert assertPlan(
         plan,
@@ -183,7 +181,7 @@ def test_ContextSet4_medicalCareReachesGoal(mpers):
                    mpers.contexts.c6,
                    mpers.contexts.c7]
 
-    plan = mpers.goals.medicalCareReachesGoal.isAchievable(fullContext, None)
+    plan = PragmaticPlanning().isAchievablePlan(mpers.goals.medicalCareReachesGoal, fullContext, None)
 
     assert assertPlan(
         plan,

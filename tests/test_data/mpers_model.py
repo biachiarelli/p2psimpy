@@ -1,10 +1,10 @@
-from goald.quality.pragmatic.model.context import Context
-from goald.quality.pragmatic.model.pragmatic import Pragmatic
-from goald.quality.pragmatic.model.goal import Goal
-from goald.quality.pragmatic.model.decomposition import Decomposition
-from goald.quality.pragmatic.model.task import Task
-from goald.quality.pragmatic.model.quality_constraint import QualityConstraint
-from goald.quality.pragmatic.model.comparison import Comparison
+from goald.quality.common.model.context import Context
+from goald.quality.planning.pragmatic.pragmatic import Pragmatic
+from goald.quality.common.model.goal import Goal
+from goald.quality.common.model.decomposition import Decomposition
+from goald.quality.common.model.task import Task
+from goald.quality.common.model.quality_constraint import QualityConstraint
+from goald.quality.common.model.comparison import Comparison
 from tests.test_data.mpers_metric import MpersMetrics
 
 
@@ -167,10 +167,10 @@ class MpersModel():
             self.goals.infoIsPreparedGoal)
 
         self.goals.infoIsSentToEmergencyGoal.addDependency(
-            self.tasks.sendInfoBySMSTask)
-        self.goals.infoIsSentToEmergencyGoal.addDependency(
             self.tasks.sendInfoByInternetTask)
-
+        self.goals.infoIsSentToEmergencyGoal.addDependency(
+            self.tasks.sendInfoBySMSTask)
+            
         self.goals.infoIsPreparedGoal.addDependency(
             self.goals.setupAutomatedInfoGoal)
         self.goals.infoIsPreparedGoal.addDependency(
