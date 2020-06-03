@@ -27,6 +27,13 @@ class Planning:
         return returnValue
 
 
+    # If is a pragmatic goal merge the interpretations
+    def isAchievablePlan(self, goal, current, interp):
+        if type(goal).__name__ == 'Pragmatic':
+            return goal.isAchievable(current, interp)
+        else:
+            return self.isAchievable(goal, current, interp)
+
     # Recursive function to choose plan
     def isAchievable(self, goal, current, interp):
         # Check if Goal is achievable for current context
@@ -37,16 +44,20 @@ class Planning:
 
         if goal.decomposition == Decomposition.OR:
             mapTasks = []
+
             # if decomposition is OR return first achievable plan from dependencies list
             for dep in dependencies:
                 if(dep.myType() is Refinement().GOAL):
-                    plan = self.isAchievable(dep, current, interp)
+                    if type(dep).__name__ == 'Pragmatic':
+                        dep.isAchievable(current, interp)
+                    else:
+                        plan = self.isAchievable(dep, current, interp)
                 elif(dep.myType() is Refinement().TASK):
-                    myQC = self.isAchievableTask(dep, current, interp)
-                    if myQC:
-                        mapTasks.append({'task': dep, 'qc': myQC})
+                    if self.isAchievableTask(dep, current, interp):
+                        qc = self.getQCsFromTask(dep, current, interp)
+                        mapTasks.append({'task': dep, 'qc': qc})
                         
-            if len(mapTasks) > 0:        
+            if len(mapTasks) > 0:
                 mapTasks = sorted(mapTasks,  key=lambda x: x['qc'])
                 plan = Plan(mapTasks[0]['task'])
 
@@ -58,7 +69,10 @@ class Planning:
             complete = Plan()
             for dep in dependencies:
                 if(dep.myType() is Refinement().GOAL):
-                    plan = self.isAchievable(dep, current, interp)
+                    if type(dep).__name__ == 'Pragmatic':
+                        plan = dep.isAchievable(current, interp)
+                    else:
+                        plan = self.isAchievable(dep, current, interp)
                 elif(dep.myType() is Refinement().TASK):
                     plan = self.isAchievableTask(dep, current, interp)
 
@@ -69,7 +83,19 @@ class Planning:
             if len(complete.getTasks()) > 0:
                 return complete
             else:
-                return None
+                return None        
+
+    def getQCsFromTask(self, task, current, interp):
+        qc = 0
+
+        # get the qualities constraints from curent active context
+        for metric in task.providedQualityLevels.keys():
+            myQC = self.myProvidedQuality(task, metric, current)
+
+            if myQC is not None:
+                qc = qc + myQC
+
+        return qc
 
 
     def abidesByInterpretation(self, task, interp, current):
@@ -102,7 +128,7 @@ class Planning:
                 except MetricNotFoundException:
                     pass
 
-        return feasible, myQC
+        return feasible
 
 
     # Return quality value if exists
@@ -143,9 +169,8 @@ class Planning:
         if not self.isApplicable(task, current):
             return None
         # test if quality fit and if return it with Plan to be added
-        feasible, myQC = self.abidesByInterpretation(task, interp, current)
-        if feasible:
-            return myQC
+        if self.abidesByInterpretation(task, interp, current):
+            return True
         else:
             return None
 
